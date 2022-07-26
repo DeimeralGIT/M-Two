@@ -2,7 +2,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:io';
-import 'package:m_one/core/models/task_model.dart';
+
+import 'package:m_two/core/models/user_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<String> get _localPath async {
@@ -13,26 +14,26 @@ Future<String> get _localPath async {
 
 Future<io.File?> get _localFile async {
   final path = await _localPath;
-  File('$path/tasks.json').create(recursive: true);
-  io.File taskData = io.File('$path/tasks.json');
-  return taskData;
+  File('$path/Users.json').create(recursive: true);
+  io.File UserData = io.File('$path/Users.json');
+  return UserData;
 }
 
-Future addTask(TaskModel taskModel) async => readTasks().then((currentContent) async {
+Future addUser(UserModel UserModel) async => readUsers().then((currentContent) async {
       final file = await _localFile;
-      currentContent.addAll({taskModel.title: taskModel.toJson()});
+      currentContent.addAll({UserModel.username: UserModel.toJson()});
       file!.writeAsString(json.encode(currentContent));
       return;
     });
 
-Future removeTask(TaskModel taskModel) async => readTasks().then((currentContent) async {
+Future removeUser(UserModel UserModel) async => readUsers().then((currentContent) async {
       final file = await _localFile;
-      currentContent.removeWhere((key, value) => key == taskModel.title);
+      currentContent.removeWhere((key, value) => key == UserModel.username);
       file!.writeAsString(json.encode(currentContent));
       return;
     });
 
-Future sortTasksByName() async => readTasks().then((currentContent) async {
+Future sortUsersByName() async => readUsers().then((currentContent) async {
       final file = await _localFile;
       List<String> sortedList = currentContent.keys.toList()..sort();
       Map<String, dynamic> sortedMap = {};
@@ -43,7 +44,7 @@ Future sortTasksByName() async => readTasks().then((currentContent) async {
       return;
     });
 
-Future sortTasksByDate() async => readTasks().then((currentContent) async {
+Future sortUsersByDate() async => readUsers().then((currentContent) async {
       final file = await _localFile;
       List<String> sortedList = currentContent.values.map((e) => e["last_modified_date_time"].toString()).toList()..sort();
       Map<String, dynamic> sortedMap = {};
@@ -55,16 +56,16 @@ Future sortTasksByDate() async => readTasks().then((currentContent) async {
       return;
     });
 
-Map<String, TaskModel> extractTasks(Map<String, dynamic> data) {
+Map<String, UserModel> extractUsers(Map<String, dynamic> data) {
   return data.map(
     (title, content) => MapEntry(
       title,
-      TaskModel.fromJson(content, title),
+      UserModel.fromJson(content, title),
     ),
   );
 }
 
-Future<Map<String, dynamic>> readTasks() async {
+Future<Map<String, dynamic>> readUsers() async {
   try {
     final file = await _localFile;
     var contents;
