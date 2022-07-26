@@ -10,10 +10,10 @@ void customShowDialog({
   showDialog(
     context: context,
     builder: (_) => AlertDialog(
-      backgroundColor: alertDialoBGColor,
+      backgroundColor: Theme.of(context).colorScheme.alertDialoBGColor,
       content: Text(
         content,
-        style: alertDialogTextStyle,
+        style: alertDialogTextStyle(context),
       ),
       actions: actions,
     ),

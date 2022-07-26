@@ -14,15 +14,24 @@ class IntroductionPage extends StatelessWidget {
   final introductionMobx = IntroductionMobx();
   final GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+
+  TextEditingController siginInUserNameController = TextEditingController();
+  TextEditingController signInPasswordController = TextEditingController();
   //two usermodels are going to be updated on every form input
   //once the form is validated, the usermodel will be submitted
-  UserModel signInUserModel = UserModel(username: "", password: "");
-  UserModel signUpUserModel = UserModel(username: "", password: "");
+  UserModel signInUserModel = UserModel(username: "", email: "", password: "");
+  UserModel signUpUserModel = UserModel(username: "", email: "", password: "");
 
-  IntroductionPage({Key? key}) : super(key: key);
+  IntroductionPage({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     //make sure to press on the logo icon
+    introductionMobx.fetchFirstAccount(
+      siginInUserNameController,
+      signInPasswordController,
+    );
     return Background(
       showIcon: true,
       child: Scaffold(
@@ -43,6 +52,8 @@ class IntroductionPage extends StatelessWidget {
                       ? SignInSection(
                           signInFormKey: signInFormKey,
                           userModel: signInUserModel,
+                          userNameController: siginInUserNameController,
+                          passwordController: signInPasswordController,
                         )
                       : SignUpSection(
                           signUpFormKey: signUpFormKey,

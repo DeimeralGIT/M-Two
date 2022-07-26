@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:m_two/core/colors.dart';
 import 'package:m_two/core/numeric_params.dart';
@@ -21,7 +21,7 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: mainBGColor,
+      color: Theme.of(context).colorScheme.mainBGColor,
       child: Stack(
         clipBehavior: Clip.antiAlias,
         children: [
@@ -67,7 +67,7 @@ class Background extends StatelessWidget {
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
-                      color: backGroundCardColor,
+                      color: Theme.of(context).colorScheme.backGroundCardColor,
                       borderRadius: BorderRadius.circular(110),
                     ),
                   ),
@@ -109,8 +109,7 @@ class IconDropWidget extends StatelessWidget {
           bottomRight: pos != 2 ? cornerRadius : Radius.zero,
           topRight: pos != 3 ? cornerRadius : Radius.zero,
         ),
-        border: Border.all(),
-        color: logoIconWidgetColor,
+        color: Theme.of(context).colorScheme.logoIconWidgetColor,
       ),
       height: logoIconWidgetSideLength / 2,
       width: logoIconWidgetSideLength / 2,

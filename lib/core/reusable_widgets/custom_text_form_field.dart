@@ -34,22 +34,22 @@ class CustomTextFormField extends StatelessWidget {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(textFormFieldRadius),
-            borderSide: BorderSide(color: textFormFieldBorderColor),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.textFormFieldBorderColor),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(textFormFieldRadius),
-            borderSide: BorderSide(color: textFormFieldBorderColor),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.textFormFieldBorderColor),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(textFormFieldRadius),
-            borderSide: BorderSide(color: textFormFieldBorderColorFocused, width: 2),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.textFormFieldBorderColorFocused, width: 2),
           ),
           label: Text(
             label,
-            style: textFormFieldLabelStyle,
+            style: textFormFieldLabelStyle(context),
           ),
         ),
-        style: textFormFieldTextStyle,
+        style: textFormFieldTextStyle(context),
       ),
     );
   }

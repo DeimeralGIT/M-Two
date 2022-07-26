@@ -13,7 +13,7 @@ class RecoverPasswordSection extends StatelessWidget {
           MaterialPageRoute(builder: (_) => RecoverPasswordPage()),
         );
       },
-      style: textButtonStyle,
+      style: textButtonStyle(context),
       child: const Text(
         "Forgot Password?",
       ),

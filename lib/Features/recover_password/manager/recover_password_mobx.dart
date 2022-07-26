@@ -9,7 +9,7 @@ abstract class _RecoverPasswordMobx with Store {
   @observable
   bool emailSent = false;
   bool verified = false;
-  UserModel currentUser = UserModel(username: "", password: "");
+  UserModel currentUser = UserModel(username: "", email: "", password: "");
   //not sure if this is an optimal way to hold the user model for static access
 
   @action

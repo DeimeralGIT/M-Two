@@ -38,7 +38,7 @@ class LoginSignupSegment extends StatelessWidget {
               key: segmentParentKey,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(segmentRadius),
-                color: segmentBGColor,
+                color: Theme.of(context).colorScheme.segmentBGColor,
               ),
             ),
             AnimatedAlign(
@@ -51,7 +51,7 @@ class LoginSignupSegment extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 2 - pageSidePadding,
                 height: segmentHeight,
                 decoration: BoxDecoration(
-                  color: segmentSelectedBGColor,
+                  color: Theme.of(context).colorScheme.segmentSelectedBGColor,
                   borderRadius: BorderRadius.circular(segmentRadius),
                 ),
               ),
@@ -67,7 +67,7 @@ class LoginSignupSegment extends StatelessWidget {
                     child: Center(
                       child: Text(
                         "Login",
-                        style: segmentTextStyle,
+                        style: segmentTextStyle(context),
                       ),
                     ),
                   ),
@@ -79,7 +79,7 @@ class LoginSignupSegment extends StatelessWidget {
                     child: Center(
                       child: Text(
                         "Sign-up",
-                        style: segmentTextStyle,
+                        style: segmentTextStyle(context),
                       ),
                     ),
                   ),
@@ -95,27 +95,40 @@ class LoginSignupSegment extends StatelessWidget {
   void signIn(BuildContext context) {
     if (signInFormKey.currentState!.validate()) {
       readUsers().then((users) {
-        Map<String, UserModel> userList = extractUsers(users);
-        if (userList.containsKey(signInUserModel.username) && userList[signInUserModel.username]!.password == signInUserModel.password) {
-          customShowDialog(
-            context: context,
-            content: "Successfully Signed in",
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                style: textButtonStyle,
-                child: const Text("OK"),
-              ),
-            ],
-          );
+        if ((checkByUserName(signInUserModel.username, users) || checkByEmail(signInUserModel.username, users))) {
+          if (fetchUser(signInUserModel.username, users).password == signInUserModel.password) {
+            customShowDialog(
+              context: context,
+              content: "Successfully Signed in",
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: textButtonStyle(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          } else {
+            customShowDialog(
+              context: context,
+              content: "Incorrect Password",
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: textButtonStyle(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          }
         } else {
           customShowDialog(
             context: context,
-            content: "Incorrect Username or Password",
+            content: "User not Found",
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                style: textButtonStyle,
+                style: textButtonStyle(context),
                 child: const Text("OK"),
               ),
             ],
@@ -128,15 +141,26 @@ class LoginSignupSegment extends StatelessWidget {
   void signUp(BuildContext context) {
     if (signUpFormKey.currentState!.validate()) {
       readUsers().then((users) {
-        Map<String, UserModel> userList = extractUsers(users);
-        if (userList.containsKey(signUpUserModel.username)) {
+        if (checkByUserName(signUpUserModel.username, users)) {
           customShowDialog(
             context: context,
             content: "Account With This Username Already Exists",
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                style: textButtonStyle,
+                style: textButtonStyle(context),
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        } else if (checkByEmail(signUpUserModel.email, users)) {
+          customShowDialog(
+            context: context,
+            content: "Account With This Email Already Exists",
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: textButtonStyle(context),
                 child: const Text("OK"),
               ),
             ],
@@ -149,7 +173,7 @@ class LoginSignupSegment extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => IntroductionPage()), (route) => false),
-                  style: textButtonStyle,
+                  style: textButtonStyle(context),
                   child: const Text("OK"),
                 ),
               ],

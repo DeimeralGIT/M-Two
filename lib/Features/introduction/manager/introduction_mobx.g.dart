@@ -51,6 +51,18 @@ mixin _$IntroductionMobx on _IntroductionMobx, Store {
   }
 
   @override
+  void fetchFirstAccount(TextEditingController userNameController,
+      TextEditingController passwordController) {
+    final _$actionInfo = _$_IntroductionMobxActionController.startAction(
+        name: '_IntroductionMobx.fetchFirstAccount');
+    try {
+      return super.fetchFirstAccount(userNameController, passwordController);
+    } finally {
+      _$_IntroductionMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void end() {
     final _$actionInfo = _$_IntroductionMobxActionController.startAction(
         name: '_IntroductionMobx.end');

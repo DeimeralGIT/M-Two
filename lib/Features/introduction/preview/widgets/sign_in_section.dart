@@ -7,12 +7,16 @@ import 'package:m_two/core/reusable_widgets/custom_text_form_field.dart';
 class SignInSection extends StatelessWidget {
   GlobalKey<FormState> signInFormKey;
   UserModel userModel;
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController userNameController;
+  TextEditingController passwordController;
+  UserModel? initialAccount;
   SignInSection({
     Key? key,
     required this.signInFormKey,
     required this.userModel,
+    this.initialAccount,
+    required this.userNameController,
+    required this.passwordController,
   }) : super(key: const ValueKey("sign_in"));
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,8 @@ class SignInSection extends StatelessWidget {
       child: Column(
         children: [
           CustomTextFormField(
-            label: "Username",
-            controller: userNameController,
+            label: "Username or Email",
+            controller: userNameController..text = initialAccount != null ? initialAccount!.username : "",
           ),
           CustomTextFormField(
             label: "Password",

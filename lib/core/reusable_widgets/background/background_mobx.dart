@@ -13,7 +13,7 @@ abstract class _BackgroundMobx with Store {
 
   @action
   void animate() {
-    turns += 3;
+    turns == 0 ? turns += 3 : turns -= 3;
     touchEnabled = false;
   }
 

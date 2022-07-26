@@ -52,17 +52,20 @@ class VerifyRecoveryCodeSection extends StatelessWidget {
           onPressed: () {
             if (formKey.currentState!.validate()) {
               //removing old user info
-              removeUser(manager.currentUser).then((pass) {
-                manager.currentUser.password = passwordController.text;
-                //adding updated user info
-                addUser(manager.currentUser).then((pass) {
-                  customShowDialog(context: context, content: "Password Updated Successfully", actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => IntroductionPage()), (route) => false),
-                      style: textButtonStyle,
-                      child: const Text("OK"),
-                    ),
-                  ]);
+              readUsers().then((users) {
+                manager.currentUser = fetchUser(manager.currentUser.email, users);
+                removeUser(manager.currentUser).then((pass) {
+                  manager.currentUser.password = passwordController.text;
+                  //adding updated user info
+                  addUser(manager.currentUser).then((pass) {
+                    customShowDialog(context: context, content: "Password Updated Successfully", actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => IntroductionPage()), (route) => false),
+                        style: textButtonStyle(context),
+                        child: const Text("OK"),
+                      ),
+                    ]);
+                  });
                 });
               });
             }

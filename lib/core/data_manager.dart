@@ -76,3 +76,29 @@ Future<Map<String, dynamic>> readUsers() async {
     return {};
   }
 }
+
+bool checkByUserName(String userName, Map<String, dynamic> users) {
+  if (users.containsKey(userName)) return true;
+  return false;
+}
+
+bool checkByEmail(String email, Map<String, dynamic> users) {
+  bool foundUserWithEmail = false;
+  extractUsers(users).values.forEach((user) {
+    if (user.email == email) foundUserWithEmail = true;
+  });
+  return foundUserWithEmail;
+}
+
+UserModel fetchUser(String emailOrUsername, Map<String, dynamic> users) {
+  Map<String, UserModel> userList = extractUsers(users);
+  if (checkByUserName(emailOrUsername, users)) {
+    return userList[emailOrUsername]!;
+  } else {
+    late UserModel userByEmail;
+    for (var user in userList.values) {
+      if (user.email == emailOrUsername) userByEmail = user;
+    }
+    return userByEmail;
+  }
+}

@@ -6,6 +6,7 @@ import 'package:m_two/core/reusable_widgets/custom_text_form_field.dart';
 
 class SignUpSection extends StatelessWidget {
   TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   GlobalKey<FormState> signUpFormKey;
@@ -20,6 +21,7 @@ class SignUpSection extends StatelessWidget {
     return Form(
       onChanged: () {
         userModel.username = userNameController.text;
+        userModel.email = emailController.text;
         userModel.password = passwordController.text;
       },
       key: signUpFormKey,
@@ -28,6 +30,18 @@ class SignUpSection extends StatelessWidget {
           CustomTextFormField(
             label: "Username",
             controller: userNameController,
+          ),
+          CustomTextFormField(
+            label: "Email",
+            controller: emailController,
+            validate: (value) {
+              if (value == null || value.isEmpty) {
+                return "Cannot be Empty";
+              } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
+                return "Invalid Email";
+              }
+              return null;
+            },
           ),
           CustomTextFormField(
             label: "Password",

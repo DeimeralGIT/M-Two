@@ -10,7 +10,7 @@ import 'package:m_two/core/reusable_widgets/custom_text_form_field.dart';
 class SendRecoveryCodeSection extends StatelessWidget {
   RecoverPasswordMobx manager;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   SendRecoveryCodeSection({
     required this.manager,
   }) : super(key: const ValueKey(1));
@@ -24,11 +24,8 @@ class SendRecoveryCodeSection extends StatelessWidget {
             child: Column(
               children: [
                 CustomTextFormField(
-                  label: "Username",
-                  controller: usernameController,
-                ),
-                CustomTextFormField(
                   label: "Email",
+                  controller: emailController,
                 ),
               ],
             )),
@@ -36,21 +33,21 @@ class SendRecoveryCodeSection extends StatelessWidget {
           onPressed: () {
             if (formKey.currentState!.validate()) {
               readUsers().then(
-                (value) {
-                  if (!value.containsKey(usernameController.text)) {
+                (users) {
+                  if (!checkByEmail(emailController.text, users)) {
                     customShowDialog(
                       context: context,
-                      content: "Username not Found",
+                      content: "User With This Email Doesn not Exist",
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          style: textButtonStyle,
+                          style: textButtonStyle(context),
                           child: const Text("OK"),
                         ),
                       ],
                     );
                   } else {
-                    manager.currentUser.username = usernameController.text;
+                    manager.currentUser.email = emailController.text;
                     manager.sendEmail();
                   }
                 },
