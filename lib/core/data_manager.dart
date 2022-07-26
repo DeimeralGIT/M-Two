@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:io';
@@ -15,20 +14,20 @@ Future<String> get _localPath async {
 Future<io.File?> get _localFile async {
   final path = await _localPath;
   File('$path/Users.json').create(recursive: true);
-  io.File UserData = io.File('$path/Users.json');
-  return UserData;
+  io.File userData = io.File('$path/Users.json');
+  return userData;
 }
 
-Future addUser(UserModel UserModel) async => readUsers().then((currentContent) async {
+Future addUser(UserModel userModel) async => readUsers().then((currentContent) async {
       final file = await _localFile;
-      currentContent.addAll({UserModel.username: UserModel.toJson()});
+      currentContent.addAll({userModel.username: userModel.toJson()});
       file!.writeAsString(json.encode(currentContent));
       return;
     });
 
-Future removeUser(UserModel UserModel) async => readUsers().then((currentContent) async {
+Future removeUser(UserModel userModel) async => readUsers().then((currentContent) async {
       final file = await _localFile;
-      currentContent.removeWhere((key, value) => key == UserModel.username);
+      currentContent.removeWhere((key, value) => key == userModel.username);
       file!.writeAsString(json.encode(currentContent));
       return;
     });
@@ -74,7 +73,6 @@ Future<Map<String, dynamic>> readUsers() async {
     }
     return contents != null ? jsonDecode(contents) : {};
   } catch (e) {
-    print(e);
     return {};
   }
 }

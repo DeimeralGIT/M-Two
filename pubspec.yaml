@@ -13,6 +13,7 @@ dependencies:
   path_provider: ^2.0.11
 # chosen state management solution
   mobx: ^2.0.7+5
+  flutter_mobx: ^2.0.6+1
 
   # no more packages :(
 
@@ -24,6 +25,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  build_runner: 
+  mobx_codegen: 
   flutter_lints: ^2.0.0
 
 
