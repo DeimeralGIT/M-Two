@@ -30,7 +30,7 @@ class SignInSection extends StatelessWidget {
         children: [
           CustomTextFormField(
             label: "Username or Email",
-            controller: userNameController..text = initialAccount != null ? initialAccount!.username : "",
+            controller: userNameController,
           ),
           CustomTextFormField(
             label: "Password",
